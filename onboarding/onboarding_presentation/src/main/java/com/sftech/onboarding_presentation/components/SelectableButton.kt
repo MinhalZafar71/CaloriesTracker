@@ -39,7 +39,7 @@ fun SelectableButton(
                 shape = RoundedCornerShape(100.dp)
             )
             .clickable {
-                onClick
+                onClick()
             }
             .padding(LocalSpacing.current.spaceMedium)
     ) {
