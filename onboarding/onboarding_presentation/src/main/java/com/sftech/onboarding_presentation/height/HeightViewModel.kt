@@ -1,10 +1,11 @@
-package com.sftech.onboarding_presentation.age
+package com.sftech.onboarding_presentation.height
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sftech.core.R
 import com.sftech.core.domain.preferences.Preferences
 import com.sftech.core.domain.use_case.FilterOutDigits
 import com.sftech.core.navigation.Route
@@ -17,36 +18,35 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AgeViewModel @Inject constructor(
+class HeightViewModel @Inject constructor(
     private val preferences: Preferences,
     private val filterOutDigits: FilterOutDigits
 ) : ViewModel() {
 
-    var age by mutableStateOf("20")
+    var height by mutableStateOf("180")
         private set
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-
-    fun onAgeEnter(age: String) {
-        if (age.length <= 3) {
-            this.age = filterOutDigits(age)
+    fun onHeightEnter(height: String) {
+        if (height.length <= 3) {
+            this.height = filterOutDigits(height)
         }
     }
 
     fun onNextClick() {
         viewModelScope.launch {
-            val ageNumber = age.toIntOrNull() ?: run {
+            val heightNumber = height.toIntOrNull() ?: run {
                 _uiEvent.send(
                     UiEvent.ShowSnackBar(
-                        UiText.StringResource(com.sftech.core.R.string.error_age_cant_be_empty)
+                        UiText.StringResource(R.string.error_height_cant_be_empty)
                     )
                 )
                 return@launch
             }
-            preferences.saveAge(age = ageNumber)
-            _uiEvent.send(UiEvent.Navigate(Route.HEIGHT))
+            preferences.saveHeight(height = heightNumber)
+            _uiEvent.send(UiEvent.Navigate(Route.WEIGHT))
         }
 
     }

@@ -17,8 +17,11 @@ import androidx.navigation.compose.rememberNavController
 import com.sftech.caloriestracker.ui.navigation.navigates
 import com.sftech.caloriestracker.ui.theme.CaloriesTrackerTheme
 import com.sftech.core.navigation.Route
+import com.sftech.onboarding_presentation.activity.ActivityScreen
 import com.sftech.onboarding_presentation.age.AgeScreen
 import com.sftech.onboarding_presentation.gender.GenderScreen
+import com.sftech.onboarding_presentation.height.HeightScreen
+import com.sftech.onboarding_presentation.weight.WeightScreen
 import com.sftech.onboarding_presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,10 +33,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             CaloriesTrackerTheme {
                 val navController = rememberNavController()
-                val snackbarHostState = remember { SnackbarHostState() }
+                val snackBarHostState = remember { SnackbarHostState() }
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    snackbarHost = { SnackbarHost(snackbarHostState) },
+                    snackbarHost = { SnackbarHost(snackBarHostState) },
                 ) { paddingValues ->
                     NavHost(
                         navController = navController,
@@ -43,18 +46,30 @@ class MainActivity : ComponentActivity() {
                         composable(Route.WELCOME) {
                             WelcomeScreen(onNavigate = navController::navigates)
                         }
-                        composable(Route.ACTIVITY) { }
+                        composable(Route.ACTIVITY) {
+                            ActivityScreen(onNavigate = navController::navigates)
+                        }
                         composable(Route.AGE) {
                             AgeScreen (
                                 onNavigate = navController::navigates,
-                                snackbarHostState = snackbarHostState
+                                snackbarHostState = snackBarHostState
                             )
                         }
                         composable(Route.GENDER) {
                             GenderScreen(onNavigate = navController::navigates)
                         }
-                        composable(Route.HEIGHT) { }
-                        composable(Route.WEIGHT) { }
+                        composable(Route.HEIGHT) {
+                            HeightScreen (
+                                onNavigate = navController::navigates,
+                                snackBarHostState = snackBarHostState
+                            )
+                        }
+                        composable(Route.WEIGHT) {
+                            WeightScreen(
+                                onNavigate = navController::navigates,
+                                snackBarHostState = snackBarHostState
+                            )
+                        }
                         composable(Route.TRACKER_OVERVIEW) { }
                         composable(Route.NUTRIENT_GOAL) { }
                         composable(Route.SEARCH) { }
